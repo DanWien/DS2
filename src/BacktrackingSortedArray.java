@@ -19,8 +19,8 @@ public class BacktrackingSortedArray implements Array<Integer>, Backtrack {
 
     @Override
     public Integer search(int k) {
-        int high = arr[size];
-        int low = arr[0];
+        int high = size-1;
+        int low = 0;
         while (high>=low) {
         	int mid = (high+low) / 2;
         	if (arr[mid] == k)
@@ -38,12 +38,11 @@ public class BacktrackingSortedArray implements Array<Integer>, Backtrack {
     	if (size >= arr.length)
 			throw new RuntimeException("Array is Full");
     	int idx=0;
-        while(x>arr[idx])
+        while(size > 0 && (x>arr[idx] & idx<=size-1))
         	idx++;
         stack.push(idx);
-        stack.push(x);
         stack.push("insert");
-        for(int i=idx+1; i<size; i++) 
+        for(int i=size; i>idx; i--)
         	arr[i]=arr[i-1];
         arr[idx]=x;
         size++;
@@ -55,8 +54,12 @@ public class BacktrackingSortedArray implements Array<Integer>, Backtrack {
 			throw new IllegalArgumentException("No element in input index");
     	if(size==0)
     		throw new RuntimeException();
+        stack.push(index);
+        stack.push(arr[index]);
+        stack.push("delete");
     	for(int i=index; i<size-1; i++)
-    		arr[index]=arr[index+1];
+    		arr[i]=arr[i+1];
+        arr[size-1]=0;
     	size--;
     }
 
@@ -88,13 +91,27 @@ public class BacktrackingSortedArray implements Array<Integer>, Backtrack {
     	if (index >= size)
 			throw new IllegalArgumentException("No element in input index");
     	if (index==0)
-			throw new IllegalArgumentException("Min has no predeccessor");
+			throw new IllegalArgumentException("Min has no predecessor");
     	return index-1;
     }
 
     @Override
     public void backtrack() {
-        // TODO: implement your code here
+        if(!stack.isEmpty()) {
+            if(stack.pop().equals("insert")) {
+                for(int i = (int)stack.pop(); i<size ; i++)
+                    arr[i] = arr[i+1];
+                size--;
+            }
+            else {
+                int toReturn = (int)stack.pop();
+                int returnIndex = (int)stack.pop();
+                for(int i = size ; i>returnIndex ; i--)
+                  arr[i]=arr[i-1];
+                arr[returnIndex] = toReturn;
+                size++;
+            }
+        }
     }
 
     @Override

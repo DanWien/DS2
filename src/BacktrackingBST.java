@@ -21,8 +21,13 @@ public class BacktrackingBST implements Backtrack, ADTSet<BacktrackingBST.Node> 
     }
 	
     public Node search(int k) {
-        // TODO: implement your code here
-    	return null; // temporal return command to prevent compilation error
+        if (root.getKey() == k)
+            return root;
+        if (root.right!=null && k>root.getKey())
+            return root.right.search(k);
+        if (root.left!=null && k<root.getKey())
+            return root.left.search(k);
+    	return null;
     }
 
     public void insert(Node node) {
@@ -93,7 +98,16 @@ public class BacktrackingBST implements Backtrack, ADTSet<BacktrackingBST.Node> 
         public Object getValue() {
             return value;
         }
-        
+
+        public Node search(int k) {
+            if (this.getKey() == k)
+                return this;
+            if(this.right!= null && k>this.getKey())
+                return this.right.search(k);
+            if(this.left!=null && k<this.getKey())
+                return this.left.search(k);
+            return null;
+        }
     }
 
 }

@@ -13,7 +13,7 @@ public class BacktrackingArray implements Array<Integer>, Backtrack {
 
 	@Override
 	public Integer get(int index) {
-		if (index >= size)
+		if (index >= size | index<0)
 			throw new IllegalArgumentException("No element in input index");
 		return arr[index];
 	}
@@ -38,7 +38,7 @@ public class BacktrackingArray implements Array<Integer>, Backtrack {
 
 	@Override
 	public void delete(Integer index) {
-		if (index >= size)
+		if (index >= size | index<0)
 			throw new IllegalArgumentException("No element in input index");
 		stack.push(index);
 		stack.push(arr[index]);
@@ -73,7 +73,7 @@ public class BacktrackingArray implements Array<Integer>, Backtrack {
 
 	@Override
 	public Integer successor(Integer index) {
-		if (index >= size)
+		if (index >= size | index<0)
 			throw new IllegalArgumentException("No element in input index");
 		int sucIdx = this.maximum();
 		if (sucIdx == index)
@@ -87,7 +87,7 @@ public class BacktrackingArray implements Array<Integer>, Backtrack {
 
 	@Override
 	public Integer predecessor(Integer index) {
-		if (index >= size)
+		if (index >= size | index<0)
 			throw new IllegalArgumentException("No element in input index");
 		int predIdx = this.minimum();
 		if (predIdx == index)
